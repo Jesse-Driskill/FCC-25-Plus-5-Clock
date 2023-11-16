@@ -1,7 +1,7 @@
-
-
 import React from "react";
 import ReactDOM from "react-dom";
+import Wrapper from "./components/Wrapper";
+
 
 class App extends React.Component {
     constructor(props) {
@@ -9,7 +9,9 @@ class App extends React.Component {
     }
 
     render() {
-        return (<div>React is working</div>)
+        return (<div id="app">
+            <Wrapper/>
+        </div>)
     }
 }
 

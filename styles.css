@@ -1,0 +1,27 @@
+#app {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+    min-height: 99vh;
+}
+
+#wrapper {
+    min-width: 40vw;
+    min-height: 40vh;
+    border: 12px solid black;
+}
+
+#title {
+    font-size: 50px;
+}
+
+#length-controls-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+div {
+    padding: 1vw;
+}
