@@ -1,15 +1,15 @@
 import React from "react";
 
-class TimerButton extends React.Component {
+class PlayPauseButton extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (<button>
-            {this.props.text}
+            Play/Pause
         </button>)
     }
 }
 
-export default TimerButton;
+export default PlayPauseButton;

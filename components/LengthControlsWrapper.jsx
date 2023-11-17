@@ -1,20 +1,23 @@
 import React from "react";
 import LengthControls from "./LengthControls";
 import { connect } from "react-redux";
-import { addMinute, subMinute } from "../redux/actions";
+import { addSessionMinute, subSessionMinute, addBreakMinute, subBreakMinute } from "../redux/actions";
 
 const mapStateToProps = (state) => {
     return {
         break: state.break,
         session: state.session
     }
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addMinute: () => dispatch(addMinute), subMinute: () => dispatch(subMinute)
+        addSessionMinute: () => dispatch(addSessionMinute()),
+        addBreakMinute: () => dispatch(addBreakMinute()),
+        subSessionMinute: () => dispatch(subSessionMinute()),
+        subBreakMinute: () => dispatch(subBreakMinute())
     }
-}
+};
 
 class LengthControlsWrapper extends React.Component {
     constructor(props) {
@@ -25,20 +28,20 @@ class LengthControlsWrapper extends React.Component {
         return <div id="length-controls-wrapper">
             <LengthControls 
                 timerType={"Break"} 
-                addMinute={this.props.addMinute} 
-                subMinute={this.props.subMinute} 
+                addMinute={this.props.addBreakMinute} 
+                subMinute={this.props.subBreakMinute} 
                 durationDisplay={this.props.break.duration}>
             </LengthControls>
 
             <LengthControls 
                 timerType={"Session"} 
-                addMinute={this.props.addMinute} 
-                subMinute={this.props.subMinute} 
+                addMinute={this.props.addSessionMinute} 
+                subMinute={this.props.subSessionMinute} 
                 durationDisplay={this.props.session.duration}>
             </LengthControls>
         </div>
     }
-}
+};
 
 
 

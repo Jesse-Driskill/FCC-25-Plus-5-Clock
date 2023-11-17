@@ -3,12 +3,15 @@ import ReactDOM from "react-dom";
 import Wrapper from "./components/Wrapper";
 import { connect, Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
-import { sessionReducer, breakReducer } from "./redux/reducers";
+import { sessionReducer, breakReducer, activeTimerReducer } from "./redux/reducers";
 
 const rootReducer = combineReducers({
     session: sessionReducer,
-    break: breakReducer
+    break: breakReducer,
+    activeTimer: activeTimerReducer
 });
+
+
 
 const store = createStore(rootReducer);
 

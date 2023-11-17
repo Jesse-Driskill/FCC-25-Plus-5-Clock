@@ -1,15 +1,15 @@
 import React from "react";
 
-class TimerButton extends React.Component {
+class ResetButton extends React.Component {
     constructor(props) {
         super(props);
     }
 
     render() {
         return (<button>
-            {this.props.text}
+            Reset
         </button>)
     }
 }
 
-export default TimerButton;
+export default ResetButton;

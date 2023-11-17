@@ -1,33 +1,36 @@
-import { ADD, SUB, RESET, RESUME, PAUSE } from "./actions";
+
+import {
+    ADD_BREAK, ADD_SESSION, SUB_BREAK, SUB_SESSION, RESET_BREAK, RESET_SESSION, RESUME_SESSION, RESUME_BREAK, PAUSE_SESSION, PAUSE_BREAK, SWITCH_ACTIVE_TIMER
+} from "./actions";
 
 
 export const sessionReducer = (state = { duration: 25, running: false}, action) => {
     switch (action.type) {
-        case ADD:
+        case ADD_SESSION:
             return {
                 duration: state.duration + 1,
                 running: false
             }
             break;
-        case SUB:
+        case SUB_SESSION:
             return {
                 duration: state.duration - 1,
                 running: false
             }
             break;
-        case RESET:
+        case RESET_SESSION:
             return {
                 duration: 25, 
                 running: false
             }
             break;
-        case PAUSE:
+        case PAUSE_SESSION:
             return {
                 duration: state.duration,
                 running: false
             }
             break;
-        case RESUME:
+        case RESUME_SESSION:
             return {
                 duration: state.duration,
                 running: true
@@ -38,33 +41,33 @@ export const sessionReducer = (state = { duration: 25, running: false}, action) 
     }
 }
 
-export const breakReducer = (state = { duration: 5, running: false }, action) => {
+export const breakReducer = (state = { duration: 5, running: false}, action) => {
     switch (action.type) {
-        case ADD:
+        case ADD_BREAK:
             return {
                 duration: state.duration + 1,
                 running: false
             }
             break;
-        case SUB:
+        case SUB_BREAK:
             return {
                 duration: state.duration - 1,
                 running: false
             }
             break;
-        case RESET:
+        case RESET_BREAK:
             return {
                 duration: 5, 
                 running: false
             }
             break;
-        case PAUSE:
+        case PAUSE_BREAK:
             return {
                 duration: state.duration,
                 running: false
             }
             break;
-        case RESUME:
+        case RESUME_BREAK:
             return {
                 duration: state.duration,
                 running: true
@@ -72,5 +75,17 @@ export const breakReducer = (state = { duration: 5, running: false }, action) =>
             break;
         default:
             return state;
+    }
+}
+
+export const activeTimerReducer = (state = { activeTimer: 1}, action) => {
+    switch (action.type) {
+        case SWITCH_ACTIVE_TIMER:
+            return {
+                activeTimer: state.activeTimer * -1
+            }
+            break;
+        default:
+            return state
     }
 }
