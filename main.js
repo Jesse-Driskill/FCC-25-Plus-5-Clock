@@ -1,6 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Wrapper from "./components/Wrapper";
+import { connect, Provider } from "react-redux";
+import { createStore, combineReducers } from "redux";
+import { sessionReducer, breakReducer } from "./redux/reducers";
+
+const rootReducer = combineReducers({
+    session: sessionReducer,
+    break: breakReducer
+});
+
+const store = createStore(rootReducer);
+
+console.log(store.getState());
 
 
 class App extends React.Component {
@@ -16,5 +28,7 @@ class App extends React.Component {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    ReactDOM.render(<App></App>, document.getElementById("main"));
-})
+    ReactDOM.render(<Provider store={store}>
+            <App></App>
+        </Provider>, document.getElementById("main"));
+});
