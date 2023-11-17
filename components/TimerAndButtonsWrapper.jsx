@@ -1,8 +1,9 @@
 import React from "react";
 import TimerContainer from "./TimerContainer";
-import TimerButton from "./TimerButton";
 import { connect } from "react-redux";
-import { resetBreakTimer, resetSessionTimer, resumeBreakTimer, resumeSessionTimer, pauseBreakTimer, pauseSessionTimer } from "../redux/actions";
+import { resetBreakTimer, resetSessionTimer, resumeBreakTimer, resumeSessionTimer, pauseBreakTimer, pauseSessionTimer, switchActiveTimer } from "../redux/actions";
+import PlayPauseButton from "./PlayPauseButton";
+import ResetButton from "./ResetButton";
 
 
 const mapStateToProps = (state) => {
@@ -38,6 +39,9 @@ const mapDispatchToProps = (dispatch) => {
         },
         pauseSessionTimer: () => {
             dispatch(pauseSessionTimer());
+        },
+        switchActiveTimer: () => {
+            dispatch(switchActiveTimer());
         }
     }
 };
@@ -49,10 +53,20 @@ class TimerAndButtonsWrapper extends React.Component {
     }
 
     render() {
+        let pause;
+        let resume;
+        if (this.props.activeTimer === "Session") {
+            resume = this.props.resumeSessionTimer;
+            pause = this.props.pauseSessionTimer
+        } else {
+            resume = this.props.resumeBreakTimer;
+            pause = this.props.pauseBreakTimer;
+        }
+
         return <div id="timer-and-buttons-wrapper">
-            <TimerContainer timerType={this.props.activeTimer}></TimerContainer>
-            <TimerButton text="Resume/Pause"></TimerButton>
-            <TimerButton text="Reset"></TimerButton>
+            <TimerContainer timerType={this.props.activeTimer} running={this.props.running} durationInS={this.props.duration * 60}></TimerContainer>
+            <PlayPauseButton running={this.props.running} resume={resume} pause={pause}></PlayPauseButton>
+            <ResetButton reset={this.props.resetTimers}></ResetButton>
         </div>
     }
 };

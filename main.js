@@ -15,6 +15,13 @@ const rootReducer = combineReducers({
 
 const store = createStore(rootReducer);
 
+store.subscribe(() => {
+    console.log(store.getState(), "store state")
+})
+store.dispatch({type: "RESUME_SESSION"});
+store.dispatch({type: "PAUSE_SESSION"});
+
+
 console.log(store.getState());
 
 

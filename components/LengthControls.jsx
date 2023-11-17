@@ -10,7 +10,6 @@ class LengthControls extends React.Component {
 
     handleAdd() {
         this.props.addMinute();
-        // console.log(this.props.addMinute)
     }
 
     handleSub() {

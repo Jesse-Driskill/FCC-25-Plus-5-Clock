@@ -10,7 +10,7 @@ class TimerContainer extends React.Component {
     render() {
         return (<div id="timer-container">
             <h1>{this.props.timerType}</h1>
-            <Timer></Timer>
+            <Timer durationInS={this.props.durationInS} running={this.props.running}></Timer>
         </div>)
     }
 }
