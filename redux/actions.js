@@ -2,17 +2,16 @@
 export const ADD_SESSION = "ADD_SESSION";
 export const SUB_SESSION = "SUB_SESSION";
 export const RESET_SESSION = "RESET_SESSION";
-export const PAUSE_SESSION = "PAUSE_SESSION";
-export const RESUME_SESSION = "RESUME_SESSION";
 
 export const ADD_BREAK = "ADD_BREAK";
 export const SUB_BREAK = "SUB_BREAK";
 export const RESET_BREAK = "RESET_BREAK";
-export const PAUSE_BREAK = "PAUSE_BREAK";
-export const RESUME_BREAK = "RESUME_BREAK";
 
 export const SWITCH_ACTIVE_TIMER = "SWITCH_ACTIVE_TIMER";
-
+export const SET_ACTIVE_TIMER_DURATION = "SET_ACTIVE_TIMER_DURATION";
+export const DECREMENT_ACTIVE_TIMER_DURATION = "DECREMENT_ACTIVE_TIMER_DURATION";
+export const PAUSE_ACTIVE_TIMER = "PAUSE_ACTIVE_TIMER";
+export const RESUME_ACTIVE_TIMER = "RESUME_ACTIVE_TIMER";
 
 export const addSessionMinute = () => {
     return {
@@ -31,19 +30,6 @@ export const resetSessionTimer = () => {
     return {
         type: RESET_SESSION
 
-    }
-}
-
-export const pauseSessionTimer = () => {
-    return {
-        type: PAUSE_SESSION
-
-    }
-}
-
-export const resumeSessionTimer = () => {
-    return {
-        type: RESUME_SESSION
     }
 }
 
@@ -71,18 +57,6 @@ export const resetBreakTimer = () => {
     }
 }
 
-export const pauseBreakTimer = () => {
-    return {
-        type: PAUSE_BREAK
-
-    }
-}
-
-export const resumeBreakTimer = () => {
-    return {
-        type: RESUME_BREAK
-    }
-}
 
 
 
@@ -92,3 +66,26 @@ export const switchActiveTimer = () => {
         type: SWITCH_ACTIVE_TIMER
     }
 }
+
+export const decrementActiveTimerDuration = () => {
+    return {type: DECREMENT_ACTIVE_TIMER_DURATION}
+}
+
+export const setActiveTimerDuration = (seconds) => {
+    return {
+        type: SET_ACTIVE_TIMER_DURATION, durationInSeconds: seconds
+    }
+}
+
+export const resumeActiveTimer = () => {
+    return {
+        type: RESUME_ACTIVE_TIMER
+    }
+}
+
+export const pauseActiveTimer = () => {
+    return {
+        type: PAUSE_ACTIVE_TIMER
+    }
+}
+

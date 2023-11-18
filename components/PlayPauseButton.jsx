@@ -15,7 +15,7 @@ class PlayPauseButton extends React.Component {
     }
 
     render() {
-        return (<button onClick={() => this.handleClick()}>
+        return (<button id="start_stop" onClick={this.handleClick}>
             Play/Pause
         </button>)
     }

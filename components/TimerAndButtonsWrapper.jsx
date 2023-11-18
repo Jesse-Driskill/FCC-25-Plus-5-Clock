@@ -1,25 +1,32 @@
 import React from "react";
 import TimerContainer from "./TimerContainer";
 import { connect } from "react-redux";
-import { resetBreakTimer, resetSessionTimer, resumeBreakTimer, resumeSessionTimer, pauseBreakTimer, pauseSessionTimer, switchActiveTimer } from "../redux/actions";
+import { resetBreakTimer, resetSessionTimer, resumeActiveTimer, pauseActiveTimer, 
+    switchActiveTimer, setActiveTimerDuration, decrementActiveTimerDuration } from "../redux/actions";
 import PlayPauseButton from "./PlayPauseButton";
 import ResetButton from "./ResetButton";
 
 
 const mapStateToProps = (state) => {
+    let durationInSeconds;
+    let activeTimer;
+
     if (state.activeTimer.activeTimer === 1) {
-        return {
-            activeTimer: "Session",
-            duration: state.session.duration,
-            running: state.session.running
-        }
+        activeTimer = "Session";
+        // durationInSeconds = state.session.durationInSeconds;
     } else {
-        return {
-            activeTimer: "Break",
-            duration: state.break.duration,
-            running: state.break.running
-        }
+        activeTimer = "Break";
+        // durationInSeconds = state.break.durationInSeconds;
     }
+
+    return {
+        activeTimer: activeTimer,
+        durationInSeconds: state.activeTimer.durationInSeconds,
+        running: state.activeTimer.running,
+        sessionDurationInSeconds: state.session.durationInSeconds,
+        breakDurationInSeconds: state.break.durationInSeconds
+    }
+
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -27,21 +34,20 @@ const mapDispatchToProps = (dispatch) => {
         resetTimers: () => {
             dispatch(resetBreakTimer());
             dispatch(resetSessionTimer());
+            dispatch(setActiveTimerDuration(1500));
         },
-        resumeBreakTimer: () => {
-            dispatch(resumeBreakTimer());
-        },
-        resumeSessionTimer: () => {
-            dispatch(resumeSessionTimer());
-        },
-        pauseBreakTimer: () => {
-            dispatch(pauseBreakTimer());
-        },
-        pauseSessionTimer: () => {
-            dispatch(pauseSessionTimer());
-        },
-        switchActiveTimer: () => {
+        switchActiveTimer: (newDuration) => {
             dispatch(switchActiveTimer());
+            dispatch(setActiveTimerDuration(newDuration));
+        },
+        pauseActiveTimer: () => {
+            dispatch(pauseActiveTimer());
+        },
+        resumeActiveTimer: () => {
+            dispatch(resumeActiveTimer());
+        },
+        decrementActiveTimer: () => {
+            dispatch(decrementActiveTimerDuration());
         }
     }
 };
@@ -53,19 +59,24 @@ class TimerAndButtonsWrapper extends React.Component {
     }
 
     render() {
-        let pause;
-        let resume;
-        if (this.props.activeTimer === "Session") {
-            resume = this.props.resumeSessionTimer;
-            pause = this.props.pauseSessionTimer
-        } else {
-            resume = this.props.resumeBreakTimer;
-            pause = this.props.pauseBreakTimer;
-        }
-
         return <div id="timer-and-buttons-wrapper">
-            <TimerContainer timerType={this.props.activeTimer} running={this.props.running} durationInS={this.props.duration * 60}></TimerContainer>
-            <PlayPauseButton running={this.props.running} resume={resume} pause={pause}></PlayPauseButton>
+
+            <TimerContainer 
+            timerType={this.props.activeTimer} 
+            time={this.props.durationInSeconds}
+            running={this.props.running}
+            decrement={this.props.decrementActiveTimer}
+            switchActiveTimer={this.props.switchActiveTimer}
+            breakDuration={this.props.breakDurationInSeconds}
+            sessionDuration={this.props.sessionDurationInSeconds}>
+            </TimerContainer>
+
+            <PlayPauseButton
+            running={this.props.running}
+            pause={this.props.pauseActiveTimer} 
+            resume={this.props.resumeActiveTimer}>
+            </PlayPauseButton>
+
             <ResetButton reset={this.props.resetTimers}></ResetButton>
         </div>
     }
