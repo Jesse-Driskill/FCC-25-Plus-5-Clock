@@ -10,7 +10,9 @@ class PlayPauseButton extends React.Component {
         if (this.props.running) {
             this.props.pause();
         } else {
-            this.props.resume();
+            if (this.props.currentTime > 0) {
+                this.props.resume();
+            }
         }
     }
 

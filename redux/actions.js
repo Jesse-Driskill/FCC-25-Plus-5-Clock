@@ -12,6 +12,11 @@ export const SET_ACTIVE_TIMER_DURATION = "SET_ACTIVE_TIMER_DURATION";
 export const DECREMENT_ACTIVE_TIMER_DURATION = "DECREMENT_ACTIVE_TIMER_DURATION";
 export const PAUSE_ACTIVE_TIMER = "PAUSE_ACTIVE_TIMER";
 export const RESUME_ACTIVE_TIMER = "RESUME_ACTIVE_TIMER";
+export const SET_ACTIVE_TIMER = "SET_ACTIVE_TIMER";
+
+
+export const SWITCH_UPDATE_STATUS = "SWITCH_UPDATE_STATUS";
+export const SET_UPDATE_STATUS = "SET_UPDATE_STATUS";
 
 export const addSessionMinute = () => {
     return {
@@ -88,4 +93,24 @@ export const pauseActiveTimer = () => {
         type: PAUSE_ACTIVE_TIMER
     }
 }
+
+export const setActiveTimer = (timerName) => {
+    // console.log("ACTIVE TIMER SET")
+    return {
+        type: SET_ACTIVE_TIMER_DURATION, timerName: timerName
+    }
+}
+
+export const switchUpdateStatus = () => {
+    return {
+        type: SWITCH_UPDATE_STATUS
+    }
+}
+
+export const setUpdateStatus = (bool) => {
+    return {
+        type: SET_UPDATE_STATUS, status: bool
+    }
+}
+
 

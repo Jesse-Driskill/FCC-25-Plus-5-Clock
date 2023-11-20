@@ -4,18 +4,11 @@ import { connect } from "react-redux";
 import { addSessionMinute, subSessionMinute, addBreakMinute, subBreakMinute, setActiveTimerDuration } from "../redux/actions";
 
 const mapStateToProps = (state) => {
-    let activeTimer;
-
-    if (state.activeTimer.activeTimer === 1) {
-        activeTimer = "Session";
-    } else {
-        activeTimer = "Break";
-    }
 
     return {
         break: state.break,
         session: state.session,
-        activeTimer: activeTimer,
+        activeTimer: state.activeTimer.activeTimer,
         activeTimerDurationInSeconds: state.activeTimer.durationInSeconds,
         running: state.activeTimer.running
     }
@@ -49,6 +42,8 @@ class LengthControlsWrapper extends React.Component {
     render() {
         return <div id="length-controls-wrapper">
             <LengthControls 
+                breakDurationInSeconds={this.props.break.durationInSeconds}
+                sessionDurationInSeconds={this.props.session.durationInSeconds}
                 timerType={"Break"} 
                 addMinute={this.props.addBreakMinute} 
                 subMinute={this.props.subBreakMinute} 
@@ -59,7 +54,9 @@ class LengthControlsWrapper extends React.Component {
                 activeTimerDurationInSeconds={this.props.activeTimerDurationInSeconds}>
             </LengthControls>
 
-            <LengthControls 
+            <LengthControls
+                breakDurationInSeconds={this.props.break.durationInSeconds}
+                sessionDurationInSeconds={this.props.session.durationInSeconds}
                 timerType={"Session"} 
                 addMinute={this.props.addSessionMinute} 
                 subMinute={this.props.subSessionMinute} 

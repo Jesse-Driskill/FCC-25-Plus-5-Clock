@@ -2,29 +2,20 @@ import React from "react";
 import TimerContainer from "./TimerContainer";
 import { connect } from "react-redux";
 import { resetBreakTimer, resetSessionTimer, resumeActiveTimer, pauseActiveTimer, 
-    switchActiveTimer, setActiveTimerDuration, decrementActiveTimerDuration } from "../redux/actions";
+    switchActiveTimer, setActiveTimerDuration, decrementActiveTimerDuration, setActiveTimer,
+    setUpdateStatus, switchUpdateStatus } from "../redux/actions";
 import PlayPauseButton from "./PlayPauseButton";
 import ResetButton from "./ResetButton";
 
 
 const mapStateToProps = (state) => {
-    let durationInSeconds;
-    let activeTimer;
-
-    if (state.activeTimer.activeTimer === 1) {
-        activeTimer = "Session";
-        // durationInSeconds = state.session.durationInSeconds;
-    } else {
-        activeTimer = "Break";
-        // durationInSeconds = state.break.durationInSeconds;
-    }
-
     return {
-        activeTimer: activeTimer,
+        activeTimer: state.activeTimer.activeTimer,
         durationInSeconds: state.activeTimer.durationInSeconds,
         running: state.activeTimer.running,
         sessionDurationInSeconds: state.session.durationInSeconds,
-        breakDurationInSeconds: state.break.durationInSeconds
+        breakDurationInSeconds: state.break.durationInSeconds,
+        updatingStatus: state.updatingStatus
     }
 
 };
@@ -36,9 +27,8 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(resetSessionTimer());
             dispatch(setActiveTimerDuration(1500));
         },
-        switchActiveTimer: (newDuration) => {
+        switchActiveTimer: () => {
             dispatch(switchActiveTimer());
-            dispatch(setActiveTimerDuration(newDuration));
         },
         pauseActiveTimer: () => {
             dispatch(pauseActiveTimer());
@@ -48,6 +38,18 @@ const mapDispatchToProps = (dispatch) => {
         },
         decrementActiveTimer: () => {
             dispatch(decrementActiveTimerDuration());
+        },
+        setActiveTimerDuration: (newDuration) => {
+            dispatch(setActiveTimerDuration(newDuration));
+        },
+        setActiveTimer: (name) => {
+            dispatch(setActiveTimer(name));
+        },
+        setUpdateStatus: (status) => {
+            dispatch(setUpdateStatus(status))
+        },
+        switchUpdateStatus: () => {
+            dispatch(switchUpdateStatus)
         }
     }
 };
@@ -56,28 +58,65 @@ const mapDispatchToProps = (dispatch) => {
 class TimerAndButtonsWrapper extends React.Component {
     constructor(props) {
         super(props);
-    }
+        setInterval(() => {
+            if (this.props.running) {
+                this.props.decrementActiveTimer();
 
+                if (this.props.durationInSeconds === 0) {
+                    this.props.pauseActiveTimer();
+
+
+                    setTimeout(() => {
+                        this.props.switchActiveTimer();
+                        let str = this.props.activeTimer.toLowerCase() + "DurationInSeconds";
+                        this.props.setActiveTimerDuration(this.props[str]);
+                        this.props.resumeActiveTimer();
+                    }, 1000);
+
+                    
+                }
+            }
+
+        }, 60)
+    }
+    
+    componentDidUpdate() {
+        if (this.props.durationInSeconds === 0) {
+            let audio = document.getElementById("beep");
+            audio.currentTime = 5;
+            audio.play();
+
+            // setTimeout(() => {
+            //     audio.pause();
+            // }, 2000);
+        }
+    }
+    
     render() {
         return <div id="timer-and-buttons-wrapper">
 
             <TimerContainer 
-            timerType={this.props.activeTimer} 
-            time={this.props.durationInSeconds}
             running={this.props.running}
-            decrement={this.props.decrementActiveTimer}
-            switchActiveTimer={this.props.switchActiveTimer}
-            breakDuration={this.props.breakDurationInSeconds}
-            sessionDuration={this.props.sessionDurationInSeconds}>
+            time={this.props.durationInSeconds}
+            activeTimer={this.props.activeTimer}>
+            
             </TimerContainer>
 
             <PlayPauseButton
             running={this.props.running}
             pause={this.props.pauseActiveTimer} 
-            resume={this.props.resumeActiveTimer}>
+            resume={this.props.resumeActiveTimer}
+            currentTime={this.props.durationInSeconds}>
             </PlayPauseButton>
 
-            <ResetButton reset={this.props.resetTimers}></ResetButton>
+            <ResetButton
+            switchActiveTimer={this.props.switchActiveTimer}
+            activeTimer={this.props.activeTimer}
+            setActiveTimer={this.props.setActiveTimer} 
+            setActiveTimerDuration={this.props.setActiveTimerDuration}
+            reset={this.props.resetTimers} 
+            ></ResetButton>
+
         </div>
     }
 };

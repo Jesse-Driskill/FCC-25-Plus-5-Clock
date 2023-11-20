@@ -6,15 +6,16 @@ class LengthControls extends React.Component {
         // console.log(this.props);
         this.handleAdd = this.handleAdd.bind(this);
         this.handleSub = this.handleSub.bind(this);
-        console.log(this.props, "Length controls props");
+        // console.log(this.props, "Length controls props");
     }
 
     handleAdd() {
         if (this.props.durationDisplay < 60) {
             this.props.addMinute();
-            let activeTimerDur = this.props.activeTimerDurationInSeconds;
-            if (!this.props.activeTimerRunning && this.props.timerType === this.props.activeTimer) {
-                this.props.setActiveTimerDuration(this.props.activeTimerDurationInSeconds + 60);
+
+            let str = this.props.timerType.toLowerCase() + "DurationInSeconds";
+            if (this.props.timerType === this.props.activeTimer) {
+                this.props.setActiveTimerDuration(this.props[str] + 60);
             }
         }
     }
@@ -22,12 +23,11 @@ class LengthControls extends React.Component {
     handleSub() {
         if (this.props.durationDisplay > 1) {
             this.props.subMinute();
-            let activeTimerDur = this.props.activeTimerDurationInseconds;
-            if (!this.props.activeTimerRunning && this.props.timerType === this.props.activeTimer) {
-                // console.log(this.props.activeTimerDurationInseconds);
-                this.props.setActiveTimerDuration(this.props.activeTimerDurationInSeconds - 60);
-                // this.props.setActiveTimerDuration(200);
+            let str = this.props.timerType.toLowerCase() + "DurationInSeconds";
+            if (this.props.timerType === this.props.activeTimer) {
+                this.props.setActiveTimerDuration(this.props[str] - 60);
             }
+            
         }
     }
 
